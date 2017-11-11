@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "/home/kartik/hackathon/DarkSideHacks/DelhiMetroPathFinder/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "/home/kartik/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/152cdfe9e213c18929189d5947bae032/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "223"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "121",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "289"
+                    }
+                },
+                {
+                    "source": "/home/kartik/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/fb865148dda4d892c0198d0ca864a4f4/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                }
+            ]
+        }
+    ]
+}

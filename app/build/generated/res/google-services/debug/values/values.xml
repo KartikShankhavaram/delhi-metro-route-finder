@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">722249381049-n5n3vcd45666jui604e5683rm3j4l85a.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://delhimetropathfinder.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">722249381049</string>
+    <string name="google_api_key" translatable="false">AIzaSyAuXX8BEJFViPZ2-US8lkA_eDpnPdnZxqw</string>
+    <string name="google_app_id" translatable="false">1:722249381049:android:bf7777a22e4d2a03</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAuXX8BEJFViPZ2-US8lkA_eDpnPdnZxqw</string>
+    <string name="google_storage_bucket" translatable="false">delhimetropathfinder.appspot.com</string>
+</resources>
