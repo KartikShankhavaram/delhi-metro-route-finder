@@ -15,78 +15,54 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <android.support.v7.widget.CardView
-        xmlns:cardview="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/card_view_source"
-        android:layout_margin="5dp"
-        android:layout_below="@id/main_toolbar"
-        cardview:cardElevation="@dimen/cardview_default_elevation"
-        cardview:cardCornerRadius="@dimen/cardview_default_radius">
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/main_toolbar">
 
-            <android.support.v7.widget.LinearLayoutCompat
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_source"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/source"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:textSize="15sp"
+                        android:hint="Source" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_destination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="30dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/source_textview_text"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorPrimaryText"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"/>
-
-                <EditText
-                    android:id="@+id/source"
+                <AutoCompleteTextView
+                    android:id="@+id/destination"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:hint="Destination" />
 
-            </android.support.v7.widget.LinearLayoutCompat>
+            </android.support.design.widget.TextInputLayout>
 
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        xmlns:cardview="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/card_view_destination"
-        android:layout_margin="5dp"
-        android:layout_below="@id/card_view_source"
-        cardview:cardElevation="@dimen/cardview_default_elevation"
-        cardview:cardCornerRadius="@dimen/cardview_default_radius">
-
-        <android.support.v7.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/destination_textview_text"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryText"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"/>
-
-            <EditText
-                android:id="@+id/destination"
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:textSize="15sp" />
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginTop="50dp"
+                android:id="@+id/get_route"
+                android:text="Get route"/>
 
         </android.support.v7.widget.LinearLayoutCompat>
-
-    </android.support.v7.widget.CardView>
 
 </RelativeLayout>
