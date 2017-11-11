@@ -1,5 +1,7 @@
 package com.darksidehacks.delhimetropathfinder.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -25,6 +28,7 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -56,10 +60,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.get_route) void getRoute() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
         if(!validate()) {
             return;
         } else {
-
+            loadingSpinner.setVisibility(View.VISIBLE);
+            refreshButton.setVisibility(View.GONE);
+            showRoute.setVisibility(View.GONE);
+            message.setText(R.string.loading_message);
+            message.setTextColor(getResources().getColor(R.color.colorLoadingMessage));
+            int idS = getIndex(String.valueOf(source.getText()));
+            int idD = getIndex(String.valueOf(destination.getText()));
+            new GetShortestRoute().execute("http://delhi-metro-api.herokuapp.com/distance/get/distance?from=" + idS + "&to=" + idD);
         }
     }
 
@@ -80,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
 
         source.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         destination.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+
+        source.setEnabled(false);
+        destination.setEnabled(false);
 
         destination.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -176,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
                     info.setName(station.getJSONObject(i).getString("name"));
                     info.setLine(station.getJSONObject(i).getString("line"));
                     info.setIndex(station.getJSONObject(i).getInt("index"));
+                    info.setLat(station.getJSONObject(i).getDouble("latitude"));
+                    info.setLng(station.getJSONObject(i).getDouble("longitude"));
                     JSONArray a = station.getJSONObject(i).getJSONArray("vertices");
                     ArrayList<Integer> b = new ArrayList<>();
                     for(int j = 0; j < a.length(); j++) {
@@ -199,6 +220,9 @@ public class MainActivity extends AppCompatActivity {
 
             loadingSpinner.setVisibility(View.GONE);
             showRoute.setVisibility(View.VISIBLE);
+
+            source.setEnabled(true);
+            destination.setEnabled(true);
         }
 
     }
@@ -207,6 +231,8 @@ public class MainActivity extends AppCompatActivity {
 
         HttpURLConnection httpURLConnection;
         URL url1;
+        ArrayList<Integer> vertices = new ArrayList<>();
+        int i;
 
         @Override
         protected String doInBackground(String... urls) {
@@ -249,43 +275,36 @@ public class MainActivity extends AppCompatActivity {
 
             String crappyPrefix = "null";
 
+            if(s == null) {
+                message.setText(R.string.route_error_message);
+                message.setTextColor(getResources().getColor(R.color.colorErrorMessage));
+                loadingSpinner.setVisibility(View.GONE);
+                showRoute.setVisibility(View.VISIBLE);
+                return;
+            }
+
             if(s.startsWith(crappyPrefix)){
                 s = s.substring(crappyPrefix.length(), s.length());
             }
 
-            int i;
-            StationInfo info;
-
             try {
-                JSONArray station = new JSONArray(s);
-                for(i = 0; i < station.length(); i++) {
-                    info = new StationInfo();
-                    info.setName(station.getJSONObject(i).getString("name"));
-                    info.setLine(station.getJSONObject(i).getString("line"));
-                    info.setIndex(station.getJSONObject(i).getInt("index"));
-                    JSONArray a = station.getJSONObject(i).getJSONArray("vertices");
-                    ArrayList<Integer> b = new ArrayList<>();
-                    for(int j = 0; j < a.length(); j++) {
-                        b.add(a.getInt(j));
-                    }
-                    info.setVertices(b);
-                    stations.add(info);
+                JSONArray nodes = new JSONArray(s);
+                for(i = 0; i < nodes.length(); i++) {
+                    vertices.add(i, nodes.getInt(i));
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.i("JSON", "Couldn't do it!");
             }
 
-            Log.i("Station", stations.toString());
-            for(i = 0; i < stations.size(); i++) {
-                stationNames.add(stations.get(i).getName());
-            }
-            adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, stationNames);
-            source.setAdapter(adapter);
-            destination.setAdapter(adapter);
-
-            loadingSpinner.setVisibility(View.GONE);
-            showRoute.setVisibility(View.VISIBLE);
+            Intent maps = new Intent(MainActivity.this, RouteMapsActivity.class);
+            Bundle bVertices = new Bundle();
+            bVertices.putSerializable("VERTICES", vertices);
+            Bundle bStations = new Bundle();
+            bStations.putSerializable("STATIONS", stations);
+            maps.putExtra("vertices", bVertices);
+            maps.putExtra("stations", bStations);
+            startActivity(maps);
         }
 
     }
@@ -313,5 +332,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadStationData() {
         new GetStationData().execute("http://delhi-metro-api.herokuapp.com/distance");
+    }
+
+    public int getIndex(String name) {
+        for(StationInfo object: stations) {
+            if(object.getName().equals(name)) {
+                return object.getIndex();
+            }
+        }
+        return -1;
     }
 }

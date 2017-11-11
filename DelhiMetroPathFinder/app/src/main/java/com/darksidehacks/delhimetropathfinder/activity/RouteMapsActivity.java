@@ -1,7 +1,9 @@
 package com.darksidehacks.delhimetropathfinder.activity;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.darksidehacks.delhimetropathfinder.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -11,9 +13,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class RouteMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    ArrayList<StationInfo> stations;
+    ArrayList<Integer> vertices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +29,16 @@ public class RouteMapsActivity extends FragmentActivity implements OnMapReadyCal
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Intent fromMain = getIntent();
+        if(fromMain != null) {
+            Bundle bVertices = fromMain.getBundleExtra("vertices");
+            Bundle bStations = fromMain.getBundleExtra("stations");
+            stations = (ArrayList<StationInfo>) bStations.getSerializable("STATIONS");
+            vertices = (ArrayList<Integer>) bVertices.getSerializable("VERTICES");
+            Log.i("stations", stations.toString());
+            Log.i("vertices", vertices.toString());
+        }
     }
 
 

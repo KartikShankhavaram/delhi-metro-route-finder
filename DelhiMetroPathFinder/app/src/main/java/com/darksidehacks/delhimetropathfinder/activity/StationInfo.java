@@ -1,17 +1,37 @@
 package com.darksidehacks.delhimetropathfinder.activity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by kartik on 11/11/17.
  */
 
-public class StationInfo {
+public class StationInfo implements Serializable {
 
     private String name;
     private String line;
     private int index;
+    private double lat;
+    private double lng;
     private ArrayList<Integer> vertices;
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
     String LINE_SUFFIX = " Line";
 
     public StationInfo() {

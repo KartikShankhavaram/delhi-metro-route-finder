@@ -6,5 +6,6 @@
     <string name="title_activity_route_maps">Shortest Route</string>
     <string name="loading_message">Loading..</string>
     <string name="station_error_message">Couldn\'t fetch stations, please try again.</string>
+    <string name="route_error_message">Could not find route.</string>
 
 </resources>
