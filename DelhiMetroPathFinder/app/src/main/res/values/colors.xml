@@ -11,4 +11,6 @@
     <color name="colorShadow">#222222</color>
     <color name="colorBackground">#FFFEEE</color>
     <color name="colorPublListHeading">#444</color>
+    <color name="colorLoadingMessage">#FFDE19</color>
+    <color name="colorErrorMessage">#FE0000</color>
 </resources>
