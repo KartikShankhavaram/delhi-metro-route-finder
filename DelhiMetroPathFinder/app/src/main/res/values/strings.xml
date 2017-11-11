@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Delhi Metro Path Finder</string>
+    <string name="source_textview_text">Source station</string>
+    <string name="destination_textview_text">Destination station</string>
 </resources>
