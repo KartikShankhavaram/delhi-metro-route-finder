@@ -11,7 +11,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 
@@ -25,13 +27,13 @@ public class RouteMapsActivity extends FragmentActivity implements OnMapReadyCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         Intent fromMain = getIntent();
-        if(fromMain != null) {
+        if (fromMain != null) {
             Bundle bVertices = fromMain.getBundleExtra("vertices");
             Bundle bStations = fromMain.getBundleExtra("stations");
             stations = (ArrayList<StationInfo>) bStations.getSerializable("STATIONS");
@@ -39,6 +41,8 @@ public class RouteMapsActivity extends FragmentActivity implements OnMapReadyCal
             Log.i("stations", stations.toString());
             Log.i("vertices", vertices.toString());
         }
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
     }
 
 
@@ -55,9 +59,72 @@ public class RouteMapsActivity extends FragmentActivity implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng latLng, oldLatLng = null;
+        boolean firstRunDone = false;
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+        for (int a : vertices) {
+            double lat = 0, lng = 0;
+            if (getStationInfo(a) != null) {
+                lat = getStationInfo(a).getLat();
+                lng = getStationInfo(a).getLng();
+            }
+            latLng = new LatLng(lat, lng);
+            mMap.addMarker(new MarkerOptions().position(latLng).title(getStationInfo(a).getName()));
+            builder.include(latLng);
+            if (firstRunDone) {
+                drawLine(oldLatLng, latLng, getStationInfo(a).getLine());
+                Log.i("Line", getStationInfo(a).getLine());
+            } else {
+                firstRunDone = true;
+            }
+            oldLatLng = latLng;
+        }
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 200, 200, 0));
+    }
+
+    private StationInfo getStationInfo(int index) {
+        for (StationInfo object : stations) {
+            if (object.getIndex() == index) {
+                return object;
+            }
+        }
+        return null;
+    }
+
+    public void drawLine(LatLng point1, LatLng point2, String line) {
+        PolylineOptions polylineOptions = new PolylineOptions();
+        polylineOptions.add(point1)
+                .add(point2);
+        polylineOptions.color(getColor(line));
+        mMap.addPolyline(polylineOptions);
+    }
+
+    public int getColor(String a) {
+        a = a.toLowerCase();
+        String[] color = a.split(" ");
+        a = color[0].substring(2);
+        Log.i("color", a);
+        switch (a) {
+            case "blue":
+                return R.color.Blue;
+
+            case "yellow":
+                return R.color.Yellow;
+
+            case "green":
+                return R.color.Green;
+
+            default:
+                return -1;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
     }
 }

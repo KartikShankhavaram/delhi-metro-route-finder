@@ -342,4 +342,9 @@ public class MainActivity extends AppCompatActivity {
         }
         return -1;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
