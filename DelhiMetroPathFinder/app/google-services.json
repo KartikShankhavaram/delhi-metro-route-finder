@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "722249381049",
+    "firebase_url": "https://delhimetropathfinder.firebaseio.com",
+    "project_id": "delhimetropathfinder",
+    "storage_bucket": "delhimetropathfinder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722249381049:android:bf7777a22e4d2a03",
+        "android_client_info": {
+          "package_name": "com.darksidehacks.delhimetropathfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "722249381049-1qvp723mahdfadun0b3eohkgal2sc67m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.darksidehacks.delhimetropathfinder",
+            "certificate_hash": "787cbb9801d2d686292eafdfbddc6ff764c369b1"
+          }
+        },
+        {
+          "client_id": "722249381049-n5n3vcd45666jui604e5683rm3j4l85a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuXX8BEJFViPZ2-US8lkA_eDpnPdnZxqw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "722249381049-n5n3vcd45666jui604e5683rm3j4l85a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
