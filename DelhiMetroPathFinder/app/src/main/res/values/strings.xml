@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Delhi Metro Path Finder</string>
+    <string name="source_textview_text">Source station</string>
+    <string name="destination_textview_text">Destination station</string>
+    <string name="station_select_hint"><b>Search Source Station</b></string>
+    <string name="title_activity_route_maps">Shortest Route</string>
+    <string name="loading_message">Loading..</string>
+    <string name="station_error_message">Couldn\'t fetch stations, please try again.</string>
+    <string name="route_error_message">Could not find route.</string>
+
+</resources>
